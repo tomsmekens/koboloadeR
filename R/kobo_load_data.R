@@ -187,7 +187,8 @@ kobo_load_data <- function(form = "form.xlsx", app = "console") {
         # dbr <- levelsOfDF$name[1]
         cat("\n\nloading",dbr,"file ..\n")
         # dataFrame <- readr::read_csv(paste0(mainDir, "/data-raw/",configInfoOrigin[configInfoOrigin$name == dbr,"path"]))
-       dataFrame <- readr::read_csv(paste0(mainDir, "/data-raw/",configInfoOrigin[configInfoOrigin$name == dbr,"path"]), stringsAsFactors = F)
+       #dataFrame <- readr::read_csv(paste0(mainDir, "/data-raw/",configInfoOrigin[configInfoOrigin$name == dbr,"path"]), stringsAsFactors = F)
+       dataFrame <- readr::read_csv(paste0(mainDir, "/data-raw/",configInfoOrigin[configInfoOrigin$name == dbr,"path"]) )
 
         if (app == "shiny") {
           progress$set(message = paste("Splitting",dbr,"file in progress..."))
@@ -250,11 +251,13 @@ kobo_load_data <- function(form = "form.xlsx", app = "console") {
 
           ## Case MainDataFrame called household
           if (parent %in% c("household", "MainDataFrame")) {
-            parentDf <- readr::read_csv(paste(mainDir,"/data/",parent,"_edited.csv",sep = ""),stringsAsFactors = F)
+          #  parentDf <- readr::read_csv(paste(mainDir,"/data/",parent,"_edited.csv",sep = ""),stringsAsFactors = F)
+            parentDf <- readr::read_csv(paste(mainDir,"/data/",parent,"_edited.csv",sep = "") )
            # load(paste(mainDir,"/data/",parent,"_edited.rda",sep = ""))
 
           }else{
-            parentDf <- readr::read_csv(paste(mainDir,"/data/",parent,"_edited.csv",sep = ""),stringsAsFactors = F)
+           # parentDf <- readr::read_csv(paste(mainDir,"/data/",parent,"_edited.csv",sep = ""),stringsAsFactors = F)
+            parentDf <- readr::read_csv(paste(mainDir,"/data/",parent,"_edited.csv",sep = "") )
             #load(paste(mainDir,"/data/",parent,"_edited.rda",sep = ""))
           }
 
@@ -342,7 +345,8 @@ kobo_load_data <- function(form = "form.xlsx", app = "console") {
     ## loading nested frame
     for (dbr in levelsOfDF$name) {
 
-      dataFrame <- readr::read_csv(paste(mainDir,"/data/",dbr,"_edited.csv",sep = ""),stringsAsFactors = F)
+      dataFrame <- readr::read_csv(paste(mainDir,"/data/",dbr,"_edited.csv",sep = "") )
+      #dataFrame <- readr::read_csv(paste(mainDir,"/data/",dbr,"_edited.csv",sep = ""),stringsAsFactors = F)
       #load(paste(mainDir,"/data/",dbr,"_edited.rda",sep = ""))
 
       dataFrame <- koboloadeR::kobo_encode(dataFrame, dico)

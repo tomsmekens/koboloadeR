@@ -55,10 +55,10 @@ kobo_crunching_report <- function(form = "form.xlsx",
       updateProgress()
     }
     ## Load all required packages
-    kobo_load_packages()
-    configInfo <- kobo_get_config(form)
+    koboloadeR::kobo_load_packages()
+    configInfo <- koboloadeR::kobo_get_config(form)
     configInfo <- configInfo[!is.na(configInfo$name),]
-    mainDir <- kobo_getMainDirectory()
+    mainDir <- koboloadeR::kobo_getMainDirectory()
     #form_tmp <- paste(mainDir, "data", form, sep = "/", collapse = "/")
     #library(koboloadeR)
     
@@ -99,19 +99,19 @@ kobo_crunching_report <- function(form = "form.xlsx",
       updateProgress()
     }
     
-    MainDataFrame <- kobo_label(MainDataFrame , dico)
+    MainDataFrame <- koboloadeR::kobo_label(MainDataFrame , dico)
     
     
     cat("\n\nload all required data files..\n")
-    dataBeginRepeat <- kobo_get_begin_repeat(form)
+    dataBeginRepeat <- koboloadeR::kobo_get_begin_repeat(form)
     dataBeginRepeat <- dataBeginRepeat$names
     
     ## Check if there's a repeat - aka hierarchical structure in the dataset
     if  (length(dataBeginRepeat) > 0) {
       for (dbr in dataBeginRepeat) {
-        dataFrame <- readr::read_csv(paste(mainDir,"/data/",dbr,"_encoded.csv",sep = ""),stringsAsFactors = F)
+        dataFrame <- readr::read_csv(paste(mainDir,"/data/",dbr,"_encoded.csv",sep = ""))
         #load(paste(mainDir,"/data/",dbr,"_encoded.rda",sep = ""))
-        assign(dbr, kobo_label(dataFrame, dico))
+        assign(dbr, koboloadeR::kobo_label(dataFrame, dico))
         if (app == "shiny") {
           progress$set(message = paste("Labelling variables in",dbr,"File in progress..."))
           updateProgress()
@@ -346,13 +346,13 @@ kobo_crunching_report <- function(form = "form.xlsx",
       cat("\n", file = report.name , sep = "\n", append = TRUE)
       cat("## label Variables", file = report.name , sep = "\n", append = TRUE)
       
-      cat("MainDataFrame <- kobo_label(MainDataFrame , dico)", file = report.name , sep = "\n", append = TRUE)
+      cat("MainDataFrame <- koboloadeR::kobo_label(MainDataFrame , dico)", file = report.name , sep = "\n", append = TRUE)
       
       
       ## Check if there's a repeat - aka hierarchical structure in the dataset
       if  (length(dataBeginRepeat) > 0) {
         for (dbr in dataBeginRepeat) {
-          cat(paste(dbr, " <- kobo_label(",dbr ," , dico)", sep = ""), file = report.name , sep = "\n", append = TRUE)
+          cat(paste(dbr, " <- koboloadeR::kobo_label(",dbr ," , dico)", sep = ""), file = report.name , sep = "\n", append = TRUE)
         }
       }
       
@@ -1016,7 +1016,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
               }
               
               
-              cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+              cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
               #cat(paste0("}"),file = report.name ,sep = "\n", append = TRUE)
               ## Close chunk
               cat(paste0("\n```\n", sep = '\n'), file = report.name.i.v.j, append = TRUE)
@@ -1131,7 +1131,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                         }
                         
                       }
-                      cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                      cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                       
                       
                       data.outlier <- get(paste0(questions.frame))[[disag.name]]
@@ -1188,7 +1188,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                           
                         }
                         
-                        cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                        cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                       }
                       ## Close chunk
                       cat(paste0("\n```\n", sep = '\n'), file = report.name.i.v.j, append = TRUE)
@@ -1293,7 +1293,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                         }
                         
                       }
-                      cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                      cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                       
                       ## Close chunk
                       cat(paste0("\n```\n", sep = ""), file = report.name.i.v.j, append = TRUE)
@@ -1548,7 +1548,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                   }
                   
                 }
-                cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                 cat(paste0("\n\n"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                 cat("\n")
               } else {
@@ -1595,7 +1595,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                     cat(paste0("theme_minimal()"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                   }
                 }
-                cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
               }
             }
             ## Close chunk
@@ -1703,7 +1703,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                         cat(paste0("theme_minimal()"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                       }
                     }
-                    cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                    cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                     
                     if (H >= 1.349) {
                       cat(paste0("cat(\"No outliers detected...\")"),file = report.name.i.v.j , sep = "\n", append = TRUE)
@@ -1740,7 +1740,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                           cat(paste0("theme_minimal()"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                         }
                       }
-                      cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                      cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                     }
                     ## Close chunk
                     cat(paste0("\n```\n", sep = '\n'), file = report.name.i.v.j, append = TRUE)
@@ -1797,7 +1797,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                         cat(paste0("theme_minimal()"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                       }
                     }
-                    cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                    cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                     
                     
                     
@@ -1831,7 +1831,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                         cat(paste0("theme_minimal()"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                       }
                     }
-                    cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                    cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                     
                     ## Close chunk
                     cat(paste0("\n```\n", sep = '\n'), file = report.name.i.v.j, append = TRUE)
@@ -2004,7 +2004,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                     cat(paste0("theme_minimal()"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                   }
                 }
-                cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                 cat(paste0("\n```\n", sep = '\n'), file = report.name.i.v.j, append = TRUE)
                 
                 
@@ -2133,7 +2133,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                           cat(paste0("theme_minimal()"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                         }
                       }
-                      cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+                      cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                       ## Close chunk
                       cat(paste0("\n```\n", sep = '\n'), file = report.name.i.v.j, append = TRUE)
                       
@@ -2201,7 +2201,7 @@ kobo_crunching_report <- function(form = "form.xlsx",
                   cat(paste0("theme_minimal()"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
                 }
               }
-              cat(paste0("ggpubr::ggarrange(kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
+              cat(paste0("ggpubr::ggarrange(koboloadeR::kobo_left_align(plot1, c(\"caption\", \"subtitle\", \"title\")), ncol = 1, nrow = 1)"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
               cat(paste0("\n\n"),file = report.name.i.v.j ,sep = "\n", append = TRUE)
               
               ## Close chunk
@@ -2276,8 +2276,8 @@ kobo_crunching_report <- function(form = "form.xlsx",
       cat(" Clean memory... \n")
       gc()
       #rm(list = ls())
-      kobo_load_packages()
-      mainDir <- kobo_getMainDirectory()
+      koboloadeR::kobo_load_packages()
+      mainDir <- koboloadeR::kobo_getMainDirectory()
       reports <- readr::read_csv(paste(mainDir,"/data/reports.csv",sep = ""))
       #load(paste(mainDir,"/data/reports.rda",sep = ""))
       ### Render now all reports
@@ -2304,10 +2304,10 @@ kobo_crunching_report <- function(form = "form.xlsx",
         if (output == "docx") {
           
           cat(paste(i, " - Render word output report for ",reportsname))
-          mainDir <- kobo_getMainDirectory()
+          mainDir <- koboloadeR::kobo_getMainDirectory()
           rmarkdown::render(paste(mainDir,"/vignettes/",i,"-", reportsname, "-report.Rmd", sep = ""))
           ## Put the report in the out folder
-          mainDir <- kobo_getMainDirectory()
+          mainDir <- koboloadeR::kobo_getMainDirectory()
           file.rename(paste(mainDir,"/vignettes/",i,"-", reportsname, "-report.docx", sep = ""),
                       paste0(mainDir,"/out/crunching_reports/Crunching-report-",i,"-", reportsname,"-",Sys.Date(), "-report.docx"))
           ## Clean  memory
@@ -2316,10 +2316,10 @@ kobo_crunching_report <- function(form = "form.xlsx",
         } else if (output == "html") {
           
           cat(paste(i, " - Render html output report for ",reportsname))
-          mainDir <- kobo_getMainDirectory()
+          mainDir <- koboloadeR::kobo_getMainDirectory()
           rmarkdown::render(paste(mainDir,"/vignettes/",i,"-", reportsname, "-report.Rmd", sep = ""))
           ## Put the report in the out folder
-          mainDir <- kobo_getMainDirectory()
+          mainDir <- koboloadeR::kobo_getMainDirectory()
           file.rename(paste(mainDir,"/vignettes/",i,"-", reportsname, "-report.html", sep = ""),
                       paste0(mainDir,"/out/crunching_reports/Crunching-report-",i,"-", reportsname,"-",Sys.Date(), "-report.html"))
           ## Clean  memory
@@ -2328,10 +2328,10 @@ kobo_crunching_report <- function(form = "form.xlsx",
         } else if (output == "aspx") {
           
           cat(paste(i, " - Render aspx output - for sharepoint hosting - report for ",reportsname))
-          mainDir <- kobo_getMainDirectory()
+          mainDir <- koboloadeR::kobo_getMainDirectory()
           rmarkdown::render(paste(mainDir,"/vignettes/",i,"-", reportsname, "-report.Rmd", sep = ""))
           ## Put the report in the out folder
-          mainDir <- kobo_getMainDirectory()
+          mainDir <- koboloadeR::kobo_getMainDirectory()
           file.rename(paste(mainDir,"/vignettes/",i,"-", reportsname, "-report.html", sep = ""),
                       paste0(mainDir,"/out/crunching_reports/Crunching-report-",i,"-", reportsname,"-",Sys.Date(), "-report.aspx"))
           ## Clean  memory
@@ -2340,10 +2340,10 @@ kobo_crunching_report <- function(form = "form.xlsx",
         } else if (output == "pptx") {
           
           cat(paste(i, " - Render PowerPoint output report for ",reportsname))
-          mainDir <- kobo_getMainDirectory()
+          mainDir <- koboloadeR::kobo_getMainDirectory()
           rmarkdown::render(paste(mainDir,"/vignettes/",i,"-", reportsname, "-report.Rmd", sep = ""))
           ## Put the report in the out folder
-          mainDir <- kobo_getMainDirectory()
+          mainDir <- koboloadeR::kobo_getMainDirectory()
           file.rename(paste(mainDir,"/vignettes/",i,"-", reportsname, "-report.pptx", sep = ""),
                       paste0(mainDir,"/out/crunching_reports/Crunching-report-",i,"-", reportsname,"-",Sys.Date(), "-report.pptx"))
           ## Clean  memory
